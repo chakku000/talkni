@@ -1,30 +1,30 @@
 package main
 
 import (
-	"os"
+	"html/template"
 	"log"
 	"net"
 	"net/http"
-	"html/template"
+	"os"
 )
 
-func main(){
-	http.HandleFunc("/", func (w http.ResponseWriter, r *http.Request){
+func main() {
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		hostname := get_hostname()
 		ip_addrs := get_ip()
 		log.Println("Hostname : ", hostname)
 
-		type TemplateArgs struct{
+		type TemplateArgs struct {
 			Hostname string
-			Ips map[string][]string
+			Ips      map[string][]string
 		}
 		targs := TemplateArgs{
-			Hostname : hostname,
-			Ips : ip_addrs,
+			Hostname: hostname,
+			Ips:      ip_addrs,
 		}
 		tpl := template.Must(template.ParseFiles("index.html"))
 		err := tpl.Execute(w, targs)
-		if err != nil{
+		if err != nil {
 			log.Println(err)
 			return
 		}
@@ -32,16 +32,16 @@ func main(){
 	http.ListenAndServe(":8080", nil)
 }
 
-func get_hostname() string{
+func get_hostname() string {
 	name, err := os.Hostname()
-	if err != nil{
+	if err != nil {
 		log.Println(err)
 		return "Error. Failed to get hostname."
 	}
 	return name
 }
 
-func get_ip() map[string][]string{
+func get_ip() map[string][]string {
 	ips := make(map[string][]string)
 	ifaces, err := net.Interfaces()
 	if err != nil {

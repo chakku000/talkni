@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Talk NetworkInterface</title>
+    </head>
+    <body>
+        <h1>NetworkInterface & Address is ...</h1>
+        <table>
+            <tr>
+                <th>Interface</th>
+                <th>Address</th>
+            </tr>
+            {{ range $interface, $addrs := .Ips }}
+            {{ range $addr := $addrs }}
+            <tr>
+                <td>{{$interface}}</td>
+                <td style="padding-left : 30px">{{$addr}}</td>
+            </tr>
+            {{ end }}
+            {{ end }}
+        </table>
+    </body>
+</html>
